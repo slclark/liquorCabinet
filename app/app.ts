@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform, ionicBootstrap } from 'ionic-angular';
-import { StatusBar } from 'ionic-native';
+import { StatusBar, SQLite } from 'ionic-native';
 import { TabsPage } from './pages/tabs/tabs';
 
 
@@ -18,6 +18,50 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
+
+       let db = new SQLite();
+
+
+       db.openDatabase({
+                name: "lc_liquor_data.db",
+                location: "default"
+            }).then(() => {
+                /* create liquor db */
+                db.executeSql("CREATE TABLE IF NOT EXISTS lc_liquor (liquor_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, category_id INTEGER)", {
+                }).then((data) => {
+                    console.log("TABLE CREATED: ", data);
+                }, (error) => {
+                    console.error("Unable to execute sql", error);
+                });
+
+                /* create categories db */
+                db.executeSql("CREATE TABLE IF NOT EXISTS lc_category (category_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)", {
+                }).then((data) => {
+                    console.log("TABLE CREATED: ", data);
+                }, (error) => {
+                    console.error("Unable to execute sql", error);
+                });
+
+                /* create picture db */
+                db.executeSql("CREATE TABLE IF NOT EXISTS lc_picture (picture_id INTEGER PRIMARY KEY AUTOINCREMENT, liquor_id INTEGER)", {
+                }).then((data) => {
+                    console.log("TABLE CREATED: ", data);
+                }, (error) => {
+                    console.error("Unable to execute sql", error);
+                });
+
+
+                /* create shopping list db */
+                db.executeSql("CREATE TABLE IF NOT EXISTS lc_shopping (item_id INTEGER PRIMARY KEY AUTOINCREMENT, liquor_id INTEGER, flag_needed BOOLEAN DEFAULT TRUE)", {
+                }).then((data) => {
+                    console.log("TABLE CREATED: ", data);
+                }, (error) => {
+                    console.error("Unable to execute sql", error);
+                });
+
+            }, (error) => {
+                console.error("Unable to open database", error);
+            });
     });
   }
 }
