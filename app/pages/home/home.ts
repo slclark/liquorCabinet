@@ -27,7 +27,7 @@ export class HomePage {
   **/
   public add_liquor(){
 
-    let liquor_name = 'Bowmore';
+    let liquor_name = 'Ardbeg';
     let category_id = 1;
     this.insert_liquor (liquor_name, category_id);
   }
@@ -98,13 +98,22 @@ export class HomePage {
             if(data.rows.length > 0) {
                 for(let i = 0; i < data.rows.length; i++) {
                     let cat = data.rows.item(i).category;
+                    let name = data.rows.item(i).name;
                     let cat_index = this.categoryExists(cat);
                     if(cat_index == -1){
                       let item = new LiquorListModel(cat);
                       item.addItem(data.rows.item(i).name);
                       this.liquor.push(item);
                     } else{
-                      this.liquor[cat_index].addItem(data.rows.item(i).name);
+                        // verify this liquor isn't already in the list
+                        let f_liquor_exists = false;                       for(let i = 0; i < this.liquor[cat_index].items.length; i++) {
+                            if(this.liquor[cat_index].items[i] == name){
+                                f_liquor_exists = true;
+                            }
+                        }
+                        if(f_liquor_exists == false){
+                            this.liquor[cat_index].addItem(data.rows.item(i).name);
+                        }
                     }
                 }
             }

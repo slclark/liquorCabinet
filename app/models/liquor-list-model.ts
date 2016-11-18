@@ -7,7 +7,6 @@ export class LiquorListModel {
     }
 
     addItem(item){
-    alert('adding '+ item);
       this.items.push(item);
     }
 
