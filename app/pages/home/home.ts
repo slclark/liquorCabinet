@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { BarcodeScanner, SQLite } from 'ionic-native';
+import { LiquorListModel } from '../../models/liquor-list-model';
 
 @Component({
   templateUrl: 'build/pages/home/home.html'
 })
 export class HomePage {
     public database: SQLite;
-    public liquor: Array<Object>;
+    public liquor = [];
 
     constructor(public navCtrl: NavController) {
 
@@ -26,7 +27,7 @@ export class HomePage {
   **/
   public add_liquor(){
 
-    let liquor_name = 'Ardbeg';
+    let liquor_name = 'Bowmore';
     let category_id = 1;
     this.insert_liquor (liquor_name, category_id);
   }
@@ -93,15 +94,35 @@ export class HomePage {
   public refresh() {
 
         this.database.executeSql("SELECT lc.name as category, ll.name as name FROM lc_liquor as ll, lc_category as lc WHERE lc.category_id=ll.category_id", []).then((data) => {
-            this.liquor = [];
+
             if(data.rows.length > 0) {
-                for(var i = 0; i < data.rows.length; i++) {
-                    this.liquor.push({name: data.rows.item(i).name, category: data.rows.item(i).category});
+                for(let i = 0; i < data.rows.length; i++) {
+                    let cat = data.rows.item(i).category;
+                    let cat_index = this.categoryExists(cat);
+                    if(cat_index == -1){
+                      let item = new LiquorListModel(cat);
+                      item.addItem(data.rows.item(i).name);
+                      this.liquor.push(item);
+                    } else{
+                      this.liquor[cat_index].addItem(data.rows.item(i).name);
+                    }
                 }
             }
         }, (error) => {
             alert("ERROR: " + JSON.stringify(error));
         });
+    }
+
+    private categoryExists(cat){
+
+      for(let i = 0; i < this.liquor.length; i++) {
+ 
+        if (this.liquor[i].name == cat){
+
+            return i;
+        }
+      }
+      return -1;
     }
 
 }
