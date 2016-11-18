@@ -8,7 +8,6 @@
             <button (click)="refresh()">Refresh</button>
         </ion-buttons>
         <ion-buttons end>
-            <button (click)="add_category()">Add Liquor Category</button>
             <button (click)="add_liquor()">Add Liquor</button>
         </ion-buttons>
     </ion-navbar>
@@ -16,11 +15,11 @@
 
 <ion-content padding>
     <ion-list>
-         <ion-item *ngFor="let list of liquor">
-         {{list.name}}
-         <div *ngFor="let item of list.items">
-             {{item}}
-             </div>
-         </ion-item>
-     </ion-list>
+      <span *ngFor="let list of liquor">
+        <ion-list-header>
+            {{list.name}}
+        </ion-list-header> 
+        <ion-item *ngFor="let item of list.items">{{item}}</ion-item>
+        </span>
+    </ion-list>
 </ion-content>

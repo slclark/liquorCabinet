@@ -38,6 +38,25 @@ export class MyApp {
                 db.executeSql("CREATE TABLE IF NOT EXISTS lc_category (category_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)", {
                 }).then((data) => {
                     console.log("TABLE CREATED: "+ JSON.stringify(data));
+                    let categories = [ 'Brandy','Gin', 'Liqueur', 'Rum', 'Tequila', 'Vodka','Whiskey'];
+                    for(let i=0; i<categories.length;i++){
+                        // first check if data exists
+                        let query = "SELECT count(*) AS total, category_id AS catid FROM lc_category WHERE name='"+categories[i]+"'";
+
+                        db.executeSql(query, []).then((data) => {
+                            if(data.rows.item(0).total == 0 ){
+                                // if doesn't already exist, add it
+                                query = "INSERT INTO lc_category (name) VALUES ('"+categories[i]+"')";
+                                db.executeSql(query, []).then((data) => {
+                                }, (error) => {
+                                    console.log("ERROR insert: " + JSON.stringify(error));
+                                });
+                            }
+                        }, (error) => {
+                            console.log("ERROR check : " + JSON.stringify(error.err));
+                        });
+                    }
+                    
                 }, (error) => {
                     console.error("Unable to execute sql"+ JSON.stringify(error));
                 });

@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Add Liquor
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="about">
+    <ion-list>
+  <ion-item>
+    <ion-label color="primary">Liquor Name</ion-label>
+    <ion-input placeholder="Text Input"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label color="primary">Category</ion-label>
+        <ion-select [(ngModel)]="selectedvalue">
+            <ion-option *ngFor="let item of optionsList" value="{{item.value}}" checked="{{item.checked}}">{{item.text}}</ion-option>
+        </ion-select>
+  </ion-item>
+
+  
+</ion-list>
+</ion-content>

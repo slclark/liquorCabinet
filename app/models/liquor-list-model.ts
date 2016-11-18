@@ -2,7 +2,6 @@ export class LiquorListModel {
     public name = '';
     public items = [];
     constructor(public category: string){
-    alert('adding '+ category);
         this.name = category;
     }
 
