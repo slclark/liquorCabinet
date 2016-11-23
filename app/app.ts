@@ -38,7 +38,7 @@ export class MyApp {
                 db.executeSql("CREATE TABLE IF NOT EXISTS lc_category (category_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)", {
                 }).then((data) => {
                     console.log("TABLE CREATED: "+ JSON.stringify(data));
-                    let categories = [ 'Brandy','Gin', 'Liqueur', 'Rum', 'Tequila', 'Vodka','Whiskey'];
+                    let categories = [ 'Brandy','Gin', 'Liqueur', 'Rum', 'Tequila', 'Uncategorized', 'Vodka','Whiskey'];
                     for(let i=0; i<categories.length;i++){
                         // first check if data exists
                         let query = "SELECT count(*) AS total, category_id AS catid FROM lc_category WHERE name='"+categories[i]+"'";
