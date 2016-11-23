@@ -7,6 +7,8 @@
 </ion-header>
 
 <ion-content padding class="about">
+    <p *ngIf="itemSubmitted" style="color: #ea6153;">Item added</p>
+    <p *ngIf="itemExists" style="color: #ea6153;">Item already exists</p>
     <form [formGroup]="liquor_item" (ngSubmit)="add_liquor()">
         <ion-item>
             <ion-label color="primary">Liquor Name</ion-label>

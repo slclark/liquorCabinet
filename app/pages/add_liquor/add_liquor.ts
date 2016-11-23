@@ -10,6 +10,8 @@ export class AddLiquorPage {
     public database: SQLite;
     public optionsList: Array<{ value: number, text: string, checked: boolean }> = [];
     public liquor_item:any;
+    public itemSubmitted: boolean = false;
+    public itemExists: boolean = false;
   
     constructor(private formBuilder: FormBuilder) {
         this.database = new SQLite();
@@ -62,12 +64,12 @@ export class AddLiquorPage {
           // if doesn't already exist, add it
           query = "INSERT INTO lc_liquor (name, category_id) VALUES ('"+liquor_name+"', '"+category_id+"')";
           this.database.executeSql(query, []).then((data) => {
-                
+                this.itemSubmitted = true;
             }, (error) => {
                 console.log("ERROR insert: " + JSON.stringify(error));
             });
        } else {
-          alert(liquor_name + " already exists.");
+          this.itemExists = true;
        }
     }, (error) => {
         console.log("ERROR check : " + JSON.stringify(error.err));
