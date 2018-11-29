@@ -1,4 +1,3 @@
-
 <ion-header>
     <ion-navbar>
         <ion-title>
@@ -12,11 +11,12 @@
 
 <ion-content padding>
     <ion-list>
-      <span *ngFor="let list of liquor">
+        <span *ngFor="let list of liquor">
         <ion-list-header>
             {{list.name}}
         </ion-list-header> 
-        <ion-item *ngFor="let item of list.items">{{item}}</ion-item>
+        <ion-item *ngFor="let item of list.items">{{item[1]}} 
+            <button ion-button (click)="editLiquor(item[0])">Edit </button></ion-item>
         </span>
     </ion-list>
 </ion-content>

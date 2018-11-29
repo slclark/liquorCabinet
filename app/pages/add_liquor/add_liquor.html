@@ -7,18 +7,19 @@
 </ion-header>
 
 <ion-content padding class="about">
-    <p *ngIf="itemSubmitted" style="color: #ea6153;">Item added</p>
-    <p *ngIf="itemExists" style="color: #ea6153;">Item already exists</p>
+    <p *ngIf="itemSubmitted" class="alert_good">Item added</p>
+    <p *ngIf="itemExists" class="alert_bad">Item already exists</p>
     <form [formGroup]="liquor_item" (ngSubmit)="add_liquor()">
+       
         <ion-item>
             <ion-label color="primary">Liquor Name</ion-label>
-            <ion-input type="text" formControlName="liquor_name"></ion-input>
+            <ion-input type="text" formControlName="liquor_name" [(ngModel)]="liquor_item.value.liquor_name"></ion-input>
         </ion-item>
-
+{{liquor_item.value.category}}
         <ion-item>
-            <ion-label color="primary">Category</ion-label>
-            <ion-select formControlName="category">
-                <ion-option *ngFor="let item of optionsList" value="{{item.value}}" checked="{{item.checked}}">{{item.text}}</ion-option>
+            <ion-label color="primary">Category {{liquor_item.value.category}}</ion-label>
+            <ion-select formControlName="category" [(ngModel)]="liquor_item.value.category">
+                <ion-option *ngFor="let item of optionsList" value="{{item.value}}">{{item.text}}</ion-option>
             </ion-select>
         </ion-item>
         <button ion-button type="submit" [disabled]="!liquor_item.valid">Submit</button>
